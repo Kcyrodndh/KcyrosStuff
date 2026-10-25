@@ -11,18 +11,26 @@ local success, response = pcall(function()
     return game:HttpGet(url)
 end)
 
-if not success then
-    warn("Failed to fetch GitHub contents: " .. tostring(response))
-    return
-end
-
-local data = HttpService:JSONDecode(response)
 local fileNamesMain = {}
 
-for _, item in ipairs(data) do
-    if item.type == "file" then
-        table.insert(fileNamesMain, item.name)
+if success then
+    local decodeSuccess, data = pcall(function()
+        return HttpService:JSONDecode(response)
+    end)
+    
+    if decodeSuccess and type(data) == "table" then
+        for _, item in ipairs(data) do
+            if item.type == "file" then
+                table.insert(fileNamesMain, item.name)
+            end
+        end
+    else
+        warn("GitHub API rate limited or invalid response. Using default fallback option.")
+        table.insert(fileNamesMain, "Latest")
     end
+else
+    warn("Failed to fetch GitHub contents: " .. tostring(response))
+    table.insert(fileNamesMain, "Latest")
 end
 
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu'))()
@@ -86,18 +94,25 @@ local TypeDropdown = Tab:CreateDropdown({
              return game:HttpGet(urlMain)
          end)
 
-         if not successMain then
+         if successMain then
+            local decodeSuccessMain, dataMain = pcall(function()
+                return HttpService:JSONDecode(responseMain)
+            end)
+            
+            table.clear(fileNamesMain)
+            if decodeSuccessMain and type(dataMain) == "table" then
+                for _, item in ipairs(dataMain) do
+                    if item.type == "file" then
+                        table.insert(fileNamesMain, item.name)
+                    end
+                end
+            else
+                table.insert(fileNamesMain, "Latest")
+            end
+         else
              warn("Failed to fetch GitHub contents: " .. tostring(responseMain))
-             return
-         end
-
-         local dataMain = HttpService:JSONDecode(responseMain)
-         
-         table.clear(fileNamesMain)
-         for _, item in ipairs(dataMain) do
-             if item.type == "file" then
-                 table.insert(fileNamesMain, item.name)
-             end
+             table.clear(fileNamesMain)
+             table.insert(fileNamesMain, "Latest")
          end
          
          Label:Set("The Main Version. More stable than Experimental, if you find any bug, try switching to Experimental.") 
@@ -114,18 +129,24 @@ local TypeDropdown = Tab:CreateDropdown({
              return game:HttpGet(urlExp)
          end)
 
-         if not successExp then
-             warn("Failed to fetch GitHub contents: " .. tostring(responseExp))
-             return
-         end
-
-         local dataExp = HttpService:JSONDecode(responseExp)
          local fileNamesExp = {}
-
-         for _, item in ipairs(dataExp) do
-             if item.type == "file" then
-                 table.insert(fileNamesExp, item.name)
-             end
+         if successExp then
+            local decodeSuccessExp, dataExp = pcall(function()
+                return HttpService:JSONDecode(responseExp)
+            end)
+            
+            if decodeSuccessExp and type(dataExp) == "table" then
+                for _, item in ipairs(dataExp) do
+                    if item.type == "file" then
+                        table.insert(fileNamesExp, item.name)
+                    end
+                end
+            else
+                table.insert(fileNamesExp, "Latest")
+            end
+         else
+             warn("Failed to fetch GitHub contents: " .. tostring(responseExp))
+             table.insert(fileNamesExp, "Latest")
          end
          
          Label:Set("The Experimental Version. Test out new versions and features earlier, but might have bugs in it.") 
