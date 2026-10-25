@@ -8,21 +8,21 @@ local Window = Rayfield:CreateWindow({
    ConfigurationSaving = { Enabled = false },
    KeySystem = false,
    DisableRayfieldPrompts = true,
-Theme = "Amethyst"
+   Theme = "Amethyst"
 })
 
 local MainTab = Window:CreateTab("Main", nil)
 
 local MainPermSection = MainTab:CreateSection("⚠️PERMANENTS ⚠️")
 
-local Label = MainTab:CreateLabel("To revert these changes, leave the experience or enter another sub place", nil, Color3.fromRGB(nil, nil, nil), false) -- Title, Icon, Color, IgnoreTheme
+local DescriptionLabel = MainTab:CreateLabel("To revert these changes, leave the experience or enter another sub place", nil, Color3.fromRGB(255, 255, 255), false)
 
 local AntiAmalgamButton = MainTab:CreateButton({
    Name = "Anti-Amalgamate [PERMANENT]",
    Callback = function()
- while task.wait() do 
- workspace.DebrisHolder:WaitForChild("InsaneAmalgamate"):Destroy()
-end-- The function that takes place when the button is pressed
+      while task.wait() do 
+         workspace.DebrisHolder:WaitForChild("InsaneAmalgamate"):Destroy()
+      end
    end,
 })
 
@@ -57,38 +57,29 @@ local TrashButton = MainTab:CreateButton({
 
 local SandyTab = Window:CreateTab("Sandy Beach", nil)
 
--- old sandeller Open shop button place.
-
 local IslandsSection = SandyTab:CreateSection("Islands' stuff")
 
 local IslandButton = SandyTab:CreateButton({
    Name = "Auto Island",
    Callback = function()
       local lp = game.Players.LocalPlayer
-local pcord = lp.Character.HumanoidRootPart.CFrame
+      local pcord = lp.Character.HumanoidRootPart.CFrame
 
-for _, k in next, workspace.Islands:GetDescendants() do
-    if k.Name == "PromptP" and k:IsA("BasePart") then
-    
-       
-        local proxPrompt = k:FindFirstChildOfClass("ProximityPrompt") or k:FindFirstChild("ProxP")
-        
-        if proxPrompt then
-           
-            lp.Character.HumanoidRootPart.CFrame = k:GetPivot() * CFrame.new(0, 5, 0)
-            task.wait(0.5)
-         
-            while proxPrompt and proxPrompt:IsDescendantOf(workspace) and proxPrompt.Enabled == true do
-                fireproximityprompt(proxPrompt)
-                task.wait(0.3)
-            end
-            
-        end
-    end 
-end
+      for _, k in next, workspace.Islands:GetDescendants() do
+          if k.Name == "PromptP" and k:IsA("BasePart") then
+              local proxPrompt = k:FindFirstChildOfClass("ProximityPrompt") or k:FindFirstChild("ProxP")
+              if proxPrompt then
+                  lp.Character.HumanoidRootPart.CFrame = k:GetPivot() * CFrame.new(0, 5, 0)
+                  task.wait(0.5)
+                  while proxPrompt and proxPrompt:IsDescendantOf(workspace) and proxPrompt.Enabled == true do
+                      fireproximityprompt(proxPrompt)
+                      task.wait(0.3)
+                  end
+              end
+          end 
+      end
 
-lp.Character.HumanoidRootPart.CFrame = pcord
-
+      lp.Character.HumanoidRootPart.CFrame = pcord
    end,
 })
 
@@ -121,37 +112,34 @@ local FireworkButton = EventTab:CreateButton({
 })
 
 local ExpTab = Window:CreateTab("Experimental 💡", nil)
-local ExpDiscLabel = ExpTab:CreateLabel("Test features before their official relase! Note that many of the things here might be broken or half done.", nil, Color3.fromRGB(nil, nil, nil), false) -- Title, Icon, Color, IgnoreTheme
+local ExpDiscLabel = ExpTab:CreateLabel("Test features before their official release! Note that many of the things here might be broken or half done.", nil, Color3.fromRGB(255, 255, 255), false)
 local ExpPermSection = ExpTab:CreateSection("⚠️PERMANENTS ⚠️")
          
-         local ExtenderButton = ExpTab:CreateButton({
+local ExtenderButton = ExpTab:CreateButton({
    Name = "Hitbox Extender [PERMANENT]",
    Callback = function()
-   while task.wait() do
-   
-for i, k in next, workspace.ActiveBosses:GetDescendants() do
-         if k.Name == 'Torso' and k:IsA'Part' then
-         k.Anchored = true
-         k.CanCollide = false
-         k.Size = Vector3.new(250, 250, 250)
-         k.Transparency = 0.5
-         
+      while task.wait() do
+         for i, k in next, workspace.ActiveBosses:GetDescendants() do
+            if k.Name == 'Torso' and k:IsA'Part' then
+               k.Anchored = true
+               k.CanCollide = false
+               k.Size = Vector3.new(250, 250, 250)
+               k.Transparency = 0.5
+            end
          end
-         end
-         end
-         
-         
+      end
    end,
 })
 
 local MoreTab = Window:CreateTab("Tab Example", nil)
-local Button = MoreTab:CreateButton({
+local BackToLauncherButton = MoreTab:CreateButton({
    Name = "Go back to launcher.",
    Callback = function()
-   loadstring(game:HttpGet("https://raw.githubusercontent.com/Kcyrodndh/KcyrosStuff/main/UWS/Launcher/Launcher"))()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/Kcyrodndh/KcyrosStuff/main/UWS/Launcher/Launcher"))()
    end,
 })
 
--- empty space for changelogs
-
-local v1.1bParagraph = MoreTab:CreateParagraph({Title = "v1.1b [Current]", Content = "Added "Hitbox Extender". Optimized Auto Island. Removed Open Sandeller Shop, might not be back (not useful)"})
+local v1_1bParagraph = MoreTab:CreateParagraph({
+   Title = "v1.1b [Current]", 
+   Content = "Added 'Hitbox Extender'. Optimized Auto Island. Removed Open Sandeller Shop, might not be back (not useful)"
+})
