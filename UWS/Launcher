@@ -1,5 +1,30 @@
 print("Loading menu")
 
+local HttpService = game:GetService("HttpService")
+         local owner = "Kcyrodndh"
+         local repo = "KcyrosStuff"
+         local path = "UWS/Main"
+
+         local url = string.format("https://api.github.com/repos/%s/%s/contents/%s", owner, repo, path)
+
+         local success, response = pcall(function()
+             return game:HttpGet(url)
+         end)
+
+         if not success then
+             warn("Failed to fetch GitHub contents: " .. tostring(response))
+             return
+         end
+
+         local data = HttpService:JSONDecode(response)
+         local fileNamesMain = {}
+
+         for _, item in ipairs(data) do
+             if item.type == "file" then
+                 table.insert(fileNamesMain, item.name)
+             end
+         end
+
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
@@ -73,13 +98,14 @@ local TypeDropdown = Tab:CreateDropdown({
          end
 
          local data = HttpService:JSONDecode(response)
-         local fileNamesMain = {}
 
          for _, item in ipairs(data) do
              if item.type == "file" then
                  table.insert(fileNamesMain, item.name)
              end
          end
+         
+         Label:Set("The Main Version. More stable than Experimental, if you find any bug, try switching to Experimental.", nil, Color3.fromRGB(255, 255, 255), false) -- Title, Icon, Color, IgnoreTheme
 
          VersionDropdown:Refresh(fileNamesMain, true)
          
@@ -108,17 +134,18 @@ local TypeDropdown = Tab:CreateDropdown({
                  table.insert(fileNamesExp, item.name)
              end
          end
-         
+         Label:Set("The Experimental Version. Test out new versions and features earlier, but might have bugs in it.", nil, Color3.fromRGB(255, 255, 255), false) -- Title, Icon, Color, IgnoreTheme
          VersionDropdown:Refresh(fileNamesExp, true)
       end
    end,
 })
 
+local Label = Tab:CreateLabel("The Main Version. More stable than Experimental, if you find any bug, try switching to Experimental.", nil, Color3.fromRGB(255, 255, 255), false) -- Title, Icon, Color, IgnoreTheme
 
 VersionDropdown = Tab:CreateDropdown({
    Name = "Version",
-   Options = {"Pick the type first!"},
-   CurrentOption = {"Pick the type first!"},
+   Options = fileNamesMain,
+   CurrentOption = {"Lastest"},
    MultipleOptions = false,
    Flag = "DropdownVersion",
    Callback = function(Options)
