@@ -34,7 +34,7 @@ local Window = Rayfield:CreateWindow({
    DisableRayfieldPrompts = true,
    DisableBuildWarnings = true,
    ConfigurationSaving = {
-      Enabled = true,
+      Enabled = false,
       FolderName = "UWS", 
       FileName = "Menu Preferences"
    },
@@ -74,13 +74,13 @@ local TypeDropdown = Tab:CreateDropdown({
       if TypeSelected == "Main" then
          Label:Set("The Main Version. More stable than Experimental, if you find any bug, try switching to Experimental.") 
          
-         local listMain = versionsData.Main or {"Latest"}
+         local listMain = versionsData.Main
          VersionDropdown:Refresh(listMain, true)
          
       elseif TypeSelected == "Experimental" then
          Label:Set("The Experimental Version. Test out new versions and features earlier, but might have bugs in it.") 
          
-         local listExp = versionsData.Experimental or {"Latest"}
+         local listExp = versionsData.Experimental
          VersionDropdown:Refresh(listExp, true)
       end
    end,
@@ -88,7 +88,7 @@ local TypeDropdown = Tab:CreateDropdown({
 
 Label = Tab:CreateLabel("The Main Version. More stable than Experimental, if you find any bug, try switching to Experimental.", nil, Color3.fromRGB(255, 255, 255), false)
 
-local initialOptions = versionsData.Main or {"Latest"}
+local initialOptions = versionsData.Main
 VersionDropdown = Tab:CreateDropdown({
    Name = "Version",
    Options = initialOptions,
