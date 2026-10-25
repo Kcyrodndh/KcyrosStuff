@@ -1,31 +1,31 @@
 print("Loading menu")
 
 local HttpService = game:GetService("HttpService")
-         local owner = "Kcyrodndh"
-         local repo = "KcyrosStuff"
-         local path = "UWS/Main"
+local owner = "Kcyrodndh"
+local repo = "KcyrosStuff"
+local path = "UWS/Main"
 
-         local url = string.format("https://api.github.com/repos/%s/%s/contents/%s", owner, repo, path)
+local url = string.format("https://github.com", owner, repo, path)
 
-         local success, response = pcall(function()
-             return game:HttpGet(url)
-         end)
+local success, response = pcall(function()
+    return game:HttpGet(url)
+end)
 
-         if not success then
-             warn("Failed to fetch GitHub contents: " .. tostring(response))
-             return
-         end
+if not success then
+    warn("Failed to fetch GitHub contents: " .. tostring(response))
+    return
+end
 
-         local data = HttpService:JSONDecode(response)
-         local fileNamesMain = {}
+local data = HttpService:JSONDecode(response)
+local fileNamesMain = {}
 
-         for _, item in ipairs(data) do
-             if item.type == "file" then
-                 table.insert(fileNamesMain, item.name)
-             end
-         end
+for _, item in ipairs(data) do
+    if item.type == "file" then
+        table.insert(fileNamesMain, item.name)
+    end
+end
 
-local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu'))()
 
 local Window = Rayfield:CreateWindow({
    Name = "Pick your version!",
@@ -34,24 +34,19 @@ local Window = Rayfield:CreateWindow({
    LoadingSubtitle = "Choose your version.",
    ShowText = "Rayfield",
    Theme = "Amethyst",
-
    ToggleUIKeybind = "K",
-
    DisableRayfieldPrompts = true,
    DisableBuildWarnings = true,
-
    ConfigurationSaving = {
       Enabled = true,
       FolderName = "UWS", 
       FileName = "Menu Preferences"
    },
-
    Discord = {
       Enabled = false,
       Invite = "noinvitelink",
       RememberJoins = true
    },
-
    KeySystem = false,
    KeySettings = {
       Title = "Untitled",
@@ -66,7 +61,8 @@ local Window = Rayfield:CreateWindow({
 
 local Tab = Window:CreateTab("Menu", nil)
 
-
+local VersionDropdown
+local Label 
 
 local TypeDropdown = Tab:CreateDropdown({
    Name = "Pick the type of version",
@@ -75,93 +71,88 @@ local TypeDropdown = Tab:CreateDropdown({
    MultipleOptions = false,
    Flag = "DropdownType",
    Callback = function(Options)
-      local TypeSelected = Options[1]
+      local TypeSelected = Options
       
-      
-      if not VersionDropdown then return end
+      if not VersionDropdown or not Label then return end
 
       if TypeSelected == "Main" then
-         local HttpService = game:GetService("HttpService")
-         local owner = "Kcyrodndh"
-         local repo = "KcyrosStuff"
-         local path = "UWS/Main"
+         local ownerMain = "Kcyrodndh"
+         local repoMain = "KcyrosStuff"
+         local pathMain = "UWS/Main"
 
-         local url = string.format("https://api.github.com/repos/%s/%s/contents/%s", owner, repo, path)
+         local urlMain = string.format("https://github.com", ownerMain, repoMain, pathMain)
 
-         local success, response = pcall(function()
-             return game:HttpGet(url)
+         local successMain, responseMain = pcall(function()
+             return game:HttpGet(urlMain)
          end)
 
-         if not success then
-             warn("Failed to fetch GitHub contents: " .. tostring(response))
+         if not successMain then
+             warn("Failed to fetch GitHub contents: " .. tostring(responseMain))
              return
          end
 
-         local data = HttpService:JSONDecode(response)
-
-         for _, item in ipairs(data) do
+         local dataMain = HttpService:JSONDecode(responseMain)
+         
+         table.clear(fileNamesMain)
+         for _, item in ipairs(dataMain) do
              if item.type == "file" then
                  table.insert(fileNamesMain, item.name)
              end
          end
          
-         Label:Set("The Main Version. More stable than Experimental, if you find any bug, try switching to Experimental.", nil, Color3.fromRGB(255, 255, 255), false) -- Title, Icon, Color, IgnoreTheme
-
+         Label:Set("The Main Version. More stable than Experimental, if you find any bug, try switching to Experimental.") 
          VersionDropdown:Refresh(fileNamesMain, true)
          
       elseif TypeSelected == "Experimental" then
-         local HttpService = game:GetService("HttpService")
-         local owner = "Kcyrodndh"
-         local repo = "KcyrosStuff"
-         local path = "UWS/Main"
+         local ownerExp = "Kcyrodndh"
+         local repoExp = "KcyrosStuff"
+         local pathExp = "UWS/Main" 
 
-         local url = string.format("https://api.github.com/repos/%s/%s/contents/%s", owner, repo, path)
+         local urlExp = string.format("https://github.com", ownerExp, repoExp, pathExp)
 
-         local success, response = pcall(function()
-             return game:HttpGet(url)
+         local successExp, responseExp = pcall(function()
+             return game:HttpGet(urlExp)
          end)
 
-         if not success then
-             warn("Failed to fetch GitHub contents: " .. tostring(response))
+         if not successExp then
+             warn("Failed to fetch GitHub contents: " .. tostring(responseExp))
              return
          end
 
-         local data = HttpService:JSONDecode(response)
+         local dataExp = HttpService:JSONDecode(responseExp)
          local fileNamesExp = {}
 
-         for _, item in ipairs(data) do
+         for _, item in ipairs(dataExp) do
              if item.type == "file" then
                  table.insert(fileNamesExp, item.name)
              end
          end
-         Label:Set("The Experimental Version. Test out new versions and features earlier, but might have bugs in it.", nil, Color3.fromRGB(255, 255, 255), false) -- Title, Icon, Color, IgnoreTheme
+         
+         Label:Set("The Experimental Version. Test out new versions and features earlier, but might have bugs in it.") 
          VersionDropdown:Refresh(fileNamesExp, true)
       end
    end,
 })
 
-local Label = Tab:CreateLabel("The Main Version. More stable than Experimental, if you find any bug, try switching to Experimental.", nil, Color3.fromRGB(255, 255, 255), false) -- Title, Icon, Color, IgnoreTheme
+Label = Tab:CreateLabel("The Main Version. More stable than Experimental, if you find any bug, try switching to Experimental.", nil, Color3.fromRGB(255, 255, 255), false)
 
 VersionDropdown = Tab:CreateDropdown({
    Name = "Version",
    Options = fileNamesMain,
-   CurrentOption = {"Lastest"},
+   CurrentOption = {"Latest"},
    MultipleOptions = false,
    Flag = "DropdownVersion",
    Callback = function(Options)
-      
-      print("Selected version file:", Options[1])
+      print("Selected version file:", Options)
    end,
 })
 
 local ExecuteButton = Tab:CreateButton({
    Name = "Load",
    Callback = function()
-      
-      local typeSelected = TypeDropdown.CurrentOption[1]
-      local fileSelected = VersionDropdown.CurrentOption[1]
+      local typeSelected = TypeDropdown.CurrentOption
+      local fileSelected = VersionDropdown.CurrentOption
 
-      
       if fileSelected == "Pick the type first!" or fileSelected == "" or not fileSelected then
          Rayfield:Notify({
             Title = "Invalid Version",
@@ -173,37 +164,37 @@ local ExecuteButton = Tab:CreateButton({
       end
 
       if typeSelected and fileSelected then
-         
-         local baseUrl = "https://raw.githubusercontent.com/Kcyrodndh/KcyrosStuff/main/UWS"
+         local baseUrl = "https://githubusercontent.com"
          local finalUrl = string.format("%s/%s/%s", baseUrl, typeSelected, fileSelected)
          
-         print("Descargando y ejecutando desde: " .. finalUrl)
+         print("Downloading and executing from: " .. finalUrl)
 
-         
-         local success, scriptContent = pcall(function()
+         local successLoad, scriptContent = pcall(function()
             return game:HttpGet(finalUrl)
          end)
 
-         if success then
-            
+         if successLoad then
             local runSuccess, runError = pcall(function()
                local func = loadstring(scriptContent)
                if func then
                   func()
                else
-                  error("loadstring devolvió nil (revisa la sintaxis de tu script en GitHub)")
+                  error("loadstring returned nil (check your GitHub script syntax)")
                end
             end)
 
             if not runSuccess then
-               warn("Error al ejecutar el script de la versión: " .. tostring(runError))
+               warn("Error executing version script: " .. tostring(runError))
             end
          else
-            warn("No se pudo descargar el archivo desde GitHub: " .. tostring(scriptContent))
+            warn("Could not download file from GitHub: " .. tostring(scriptContent))
          end
       end
    end,
 })
 
+if Label and Label.Elements and Label.Elements.MainFrame then 
+    Label.Elements.MainFrame.BackgroundTransparency = 1 
+end
 
 print("Loaded")
