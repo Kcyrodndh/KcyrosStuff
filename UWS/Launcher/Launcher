@@ -3,7 +3,7 @@ print("Loading menu")
 local HttpService = game:GetService("HttpService")
 
 local success, response = pcall(function()
-    return game:HttpGet("https://githubusercontent.com")
+    return game:HttpGet("https://raw.githubusercontent.com/Kcyrodndh/KcyrosStuff/main/UWS/Loader/versions.json")
 end)
 
 local versionsData = { Main = {"Latest"}, Experimental = {"Latest"} }
@@ -134,7 +134,7 @@ local ExecuteButton = Tab:CreateButton({
       end
 
       if typeSelected and fileSelected then
-         local baseUrl = "https://githubusercontent.com"
+         local baseUrl = "https://raw.githubusercontent.com/Kcyrodndh/KcyrosStuff/main/UWS"
          local finalUrl = string.format("%s/%s/%s", baseUrl, typeSelected, fileSelected)
          
          print("Downloading and executing from: " .. finalUrl)
