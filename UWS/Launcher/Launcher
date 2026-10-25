@@ -3,7 +3,7 @@ print("Loading menu")
 local HttpService = game:GetService("HttpService")
 
 local success, response = pcall(function()
-    return game:HttpGet("https://raw.githubusercontent.com/Kcyrodndh/KcyrosStuff/main/UWS/Loader/versions.json")
+    return game:HttpGet("https://raw.githubusercontent.com/Kcyrodndh/KcyrosStuff/main/UWS/Launcher/versions.json")
 end)
 
 local versionsData = { Main = {"Latest"}, Experimental = {"Latest"} }
@@ -26,14 +26,14 @@ local rayfieldLoaded, rayfieldError = pcall(function()
     return loadstring(game:HttpGet('https://pastebin.com'))()
 end)
 
-if rayfieldLoaded and Rayfield then
-    Rayfield = rayfieldLoaded
+if rayfieldLoaded and rayfieldError then
+    Rayfield = rayfieldError
 else
     local officialLoaded, officialError = pcall(function()
         return loadstring(game:HttpGet('https://sirius.menu'))()
     end)
-    if officialLoaded then
-        Rayfield = officialLoaded
+    if officialLoaded and officialError then
+        Rayfield = officialError
     else
         warn("Could not load Rayfield UI from any online source.")
         return
@@ -84,7 +84,7 @@ local TypeDropdown = Tab:CreateDropdown({
    MultipleOptions = false,
    Flag = "DropdownType",
    Callback = function(Options)
-      local TypeSelected = Options
+      local TypeSelected = Options[1] or Options
       
       if not VersionDropdown or not Label then return end
 
@@ -113,15 +113,15 @@ VersionDropdown = Tab:CreateDropdown({
    MultipleOptions = false,
    Flag = "DropdownVersion",
    Callback = function(Options)
-      print("Selected version file:", Options)
+      print("Selected version file:", Options[1] or Options)
    end,
 })
 
 local ExecuteButton = Tab:CreateButton({
    Name = "Load",
    Callback = function()
-      local typeSelected = TypeDropdown.CurrentOption
-      local fileSelected = VersionDropdown.CurrentOption
+      local typeSelected = type(TypeDropdown.CurrentOption) == "table" and TypeDropdown.CurrentOption[1] or TypeDropdown.CurrentOption
+      local fileSelected = type(VersionDropdown.CurrentOption) == "table" and VersionDropdown.CurrentOption[1] or VersionDropdown.CurrentOption
 
       if fileSelected == "Pick the type first!" or fileSelected == "" or not fileSelected then
          Rayfield:Notify({
