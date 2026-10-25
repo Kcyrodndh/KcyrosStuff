@@ -7,14 +7,14 @@ local Window = Rayfield:CreateWindow({
    LoadingSubtitle = "by Kcyrodndh",
    ConfigurationSaving = { Enabled = false },
    KeySystem = false,
-   DisableRayfieldPrompts= true,
-Theme = "Amethyst"
+   DisableRayfieldPrompts = true,
+   Theme = "Amethyst"
 })
 
 local MainTab = Window:CreateTab("Main", nil)
 local MainSection = MainTab:CreateSection("Autos")
 
-local Button = MainTab:CreateButton({
+local TrashButton = MainTab:CreateButton({
    Name = "Collect Trash",
    Callback = function()
       local lp = game.Players.LocalPlayer
@@ -41,19 +41,19 @@ local Button = MainTab:CreateButton({
    end,
 })
 
-local Button = MainTab:CreateButton({
+local AntiAmalgamateButton = MainTab:CreateButton({
    Name = "Anti-Amalgamate [PERMANENT]",
    Callback = function()
-   Rayfield:Notify({
-   Title = "Amalgamate Removed",
-   Content = "Rejoin/Switch place to disable",
-   Duration = 6.5,
-   Image = nil,
-})
+      Rayfield:Notify({
+         Title = "Amalgamate Removed",
+         Content = "Rejoin/Switch place to disable",
+         Duration = 6.5,
+         Image = nil,
+      })
 
- while task.wait() do 
- workspace.DebrisHolder:WaitForChild("InsaneAmalgamate"):Destroy()
-end-- The function that takes place when the button is pressed
+      while task.wait() do 
+         workspace.DebrisHolder:WaitForChild("InsaneAmalgamate"):Destroy()
+      end
    end,
 })
 
@@ -134,13 +134,14 @@ local FireworkButton = EventTab:CreateButton({
 })
 
 local MoreTab = Window:CreateTab("Tab Example", nil)
-local Button = MoreTab:CreateButton({
+local BackToLauncherButton = MoreTab:CreateButton({
    Name = "Go back to launcher.",
    Callback = function()
-   loadstring(game:HttpGet("https://raw.githubusercontent.com/Kcyrodndh/KcyrosStuff/main/UWS/Launcher/Launcher"))()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/Kcyrodndh/KcyrosStuff/main/UWS/Launcher/Launcher"))()
    end,
 })
 
--- empty space for changelogs
-
-local v1.0Paragraph = MoreTab:CreateParagraph({Title = "v1.0 [Current]", Content = "Script relase! Added "More" tab and button to go back to launcher. Changed UI to "Amethyst" theme."})
+local v1_0Paragraph = MoreTab:CreateParagraph({
+   Title = "v1.0 [Current]", 
+   Content = "Script release! Added 'More' tab and button to go back to launcher. Changed UI to 'Amethyst' theme."
+})
