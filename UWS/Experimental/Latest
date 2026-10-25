@@ -56,28 +56,7 @@ local TrashButton = MainTab:CreateButton({
 
 local SandyTab = Window:CreateTab("Sandy Beach", nil)
 
-local ShopButton = SandyTab:CreateButton({
-   Name = "Open Sandeller Shop",
-   Callback = function()
-      local lp = game.Players.LocalPlayer
-      local pcord = lp.Character.HumanoidRootPart.CFrame
-      local Sandeller = workspace:WaitForChild("Sandeller")
-      
-      lp.Character.HumanoidRootPart.CFrame = Sandeller:GetPivot() * CFrame.new(0, 5, 0)
-      task.wait(0.5)
-      fireproximityprompt(Sandeller.QuestP.ProxP)
-      task.wait(0.6)
-      
-      local args = {
-         workspace:WaitForChild("Sandeller"):WaitForChild("QuestP"):WaitForChild("Quests"):WaitForChild("DBox1"),
-         "Text21"
-      }
-      workspace:WaitForChild("Sandeller"):WaitForChild("QuestP"):WaitForChild("RemoteEvent"):FireServer(unpack(args))
-      
-      task.wait(0.3)
-      lp.Character.HumanoidRootPart.CFrame = pcord
-   end,
-})
+-- old sandeller Open shop button place.
 
 local IslandsSection = SandyTab:CreateSection("Islands' stuff")
 
@@ -174,4 +153,4 @@ local Button = MoreTab:CreateButton({
 
 -- empty space for changelogs
 
-local v1.1bParagraph = MoreTab:CreateParagraph({Title = "v1.1b [Current]", Content = "Added "Hitbox Extender". Optimized Auto Island."})
+local v1.1bParagraph = MoreTab:CreateParagraph({Title = "v1.1b [Current]", Content = "Added "Hitbox Extender". Optimized Auto Island. Removed Open Sandeller Shop, might not be back (not useful)"})
