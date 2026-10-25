@@ -163,3 +163,15 @@ for i, k in next, workspace.ActiveBosses:GetDescendants() do
          
    end,
 })
+
+local MoreTab = Window:CreateTab("Tab Example", nil)
+local Button = MoreTab:CreateButton({
+   Name = "Go back to launcher.",
+   Callback = function()
+   loadstring(game:HttpGet("https://raw.githubusercontent.com/Kcyrodndh/KcyrosStuff/main/UWS/Launcher/Launcher"))()
+   end,
+})
+
+-- empty space for changelogs
+
+local v1.1bParagraph = MoreTab:CreateParagraph({Title = "v1.1b [Current]", Content = "Added "Hitbox Extender". Optimized Auto Island."})
