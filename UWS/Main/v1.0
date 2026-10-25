@@ -1,0 +1,149 @@
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+local Window = Rayfield:CreateWindow({
+   Name = "Unwavering Soul",
+   Icon = 0,
+   LoadingTitle = "Now Loading...",
+   LoadingSubtitle = "by Kcyrodndh",
+   ConfigurationSaving = { Enabled = false },
+   KeySystem = false,
+   DisableRayfieldPrompts = true,
+   Theme = "Amethyst"
+})
+
+local MainTab = Window:CreateTab("Main", nil)
+local MainSection = MainTab:CreateSection("Autos")
+
+local TrashButton = MainTab:CreateButton({
+   Name = "Collect Trash",
+   Callback = function()
+      local lp = game.Players.LocalPlayer
+      local pcord = lp.Character.HumanoidRootPart.CFrame
+      
+      for _, k in next, workspace.DebrisHolder:GetChildren() do
+         if k.Name == 'TrashCan' and k:IsA'UnionOperation' then
+            game:GetService('RunService').PostSimulation:Wait()
+            lp.Character.HumanoidRootPart.CFrame = k:GetPivot() * CFrame.new(0, 5, 0)
+            task.wait(.7)
+         end 
+      end
+
+      lp.Character.HumanoidRootPart.CFrame = pcord
+
+      task.wait(1)
+      if workspace.DebrisHolder:FindFirstChild("TrashCan") then
+         Rayfield:Notify({
+            Title = "Failed to collect some trash",
+            Content = "Please re-execute",
+            Duration = 6.5,
+         })
+      end
+   end,
+})
+
+local AntiAmalgamateButton = MainTab:CreateButton({
+   Name = "Anti-Amalgamate [PERMANENT]",
+   Callback = function()
+      Rayfield:Notify({
+         Title = "Amalgamate Removed",
+         Content = "Rejoin/Switch place to disable",
+         Duration = 6.5,
+         Image = nil,
+      })
+
+      while task.wait() do 
+         workspace.DebrisHolder:WaitForChild("InsaneAmalgamate"):Destroy()
+      end
+   end,
+})
+
+local SandyTab = Window:CreateTab("Sandy Beach", nil)
+
+local ShopButton = SandyTab:CreateButton({
+   Name = "Open Sandeller Shop",
+   Callback = function()
+      local lp = game.Players.LocalPlayer
+      local pcord = lp.Character.HumanoidRootPart.CFrame
+      local Sandeller = workspace:WaitForChild("Sandeller")
+      
+      lp.Character.HumanoidRootPart.CFrame = Sandeller:GetPivot() * CFrame.new(0, 5, 0)
+      task.wait(0.5)
+      fireproximityprompt(Sandeller.QuestP.ProxP)
+      task.wait(0.6)
+      
+      local args = {
+         workspace:WaitForChild("Sandeller"):WaitForChild("QuestP"):WaitForChild("Quests"):WaitForChild("DBox1"),
+         "Text21"
+      }
+      workspace:WaitForChild("Sandeller"):WaitForChild("QuestP"):WaitForChild("RemoteEvent"):FireServer(unpack(args))
+      
+      task.wait(0.3)
+      lp.Character.HumanoidRootPart.CFrame = pcord
+   end,
+})
+
+local IslandsSection = SandyTab:CreateSection("Islands' stuff")
+
+local IslandButton = SandyTab:CreateButton({
+   Name = "Auto Island",
+   Callback = function()
+      local lp = game.Players.LocalPlayer
+      local pcord = lp.Character.HumanoidRootPart.CFrame
+      
+      for _, k in next, workspace.Islands:GetDescendants() do
+         if k.Name == 'PromptP' and k:IsA'Part' then
+            lp.Character.HumanoidRootPart.CFrame = k:GetPivot() * CFrame.new(0, 5, 0)
+            task.wait(0.5)
+            for i = 1, 5 do
+               fireproximityprompt(k.ProxP)
+               task.wait(0.3)
+            end
+         end 
+      end
+
+      lp.Character.HumanoidRootPart.CFrame = pcord
+   end,
+})
+
+local EventTab = Window:CreateTab("Events", nil)
+local Xmas25Section = EventTab:CreateSection("Christmas 2025")
+
+local FireworkButton = EventTab:CreateButton({
+   Name = "Collect Fireworks",
+   Callback = function()
+      local lp = game.Players.LocalPlayer
+      for _, k in next, workspace.FireworksC:GetChildren() do
+         if k.Name == 'FireworksM' and k:IsA'Model' then
+            game:GetService('RunService').PostSimulation:Wait()
+            lp.Character.HumanoidRootPart.CFrame = k:GetPivot() * CFrame.new(0, 5, 0)
+            task.wait(.2)
+            fireproximityprompt(k.MeshPart1.ProximityPrompt)
+            task.wait(.7)
+         end 
+      end 
+
+      task.wait(1)
+      if workspace.FireworksC:FindFirstChild("FireworksM") then
+         Rayfield:Notify({
+            Title = "Missed some fireworks",
+            Content = "Please re-execute",
+            Duration = 6.5,
+         })
+      end
+   end,
+})
+
+local MoreTab = Window:CreateTab("More", nil)
+local BackToLauncherButton = MoreTab:CreateButton({
+   Name = "Go back to launcher.",
+   Callback = function()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/Kcyrodndh/KcyrosStuff/main/UWS/Launcher/Launcher"))()
+   end,
+})
+
+local ChangeSection = MoreTab:CreateSection("Changelog")
+
+local v1_0Paragraph = MoreTab:CreateParagraph({
+   Title = "v1.0 [Current]", 
+   Content = "Script release! Added 'More' tab and button to go back to launcher. Changed UI to 'Amethyst' theme."
+})
