@@ -90,15 +90,14 @@ local pcord = lp.Character.HumanoidRootPart.CFrame
 for _, k in next, workspace.Islands:GetDescendants() do
     if k.Name == "PromptP" and k:IsA("BasePart") then
     
-        -- Safely find the ProximityPrompt inside the part
+       
         local proxPrompt = k:FindFirstChildOfClass("ProximityPrompt") or k:FindFirstChild("ProxP")
         
         if proxPrompt then
-            -- Teleport slightly above the object to avoid clipping
+           
             lp.Character.HumanoidRootPart.CFrame = k:GetPivot() * CFrame.new(0, 5, 0)
             task.wait(0.5)
-            
-            -- Continuously fire the prompt until it despawns or is destroyed
+         
             while proxPrompt and proxPrompt:IsDescendantOf(workspace) and proxPrompt.Enabled == true do
                 fireproximityprompt(proxPrompt)
                 task.wait(0.3)
@@ -108,7 +107,6 @@ for _, k in next, workspace.Islands:GetDescendants() do
     end 
 end
 
--- Teleport back to your original position when done
 lp.Character.HumanoidRootPart.CFrame = pcord
 
    end,
@@ -138,14 +136,15 @@ local FireworkButton = EventTab:CreateButton({
             Content = "Please re-execute",
             Duration = 6.5,
          })
+      end
+   end,
+})
+
+local ExpTab = Window:CreateTab("Experimental 💡", nil)
+local ExpDiscLabel = ExpTab:CreateLabel("Test features before their official relase! Note that many of the things here might be broken or half done.", nil, Color3.fromRGB(nil, nil, nil), false) -- Title, Icon, Color, IgnoreTheme
+local ExpPermSection = ExpTab:CreateSection("⚠️PERMANENTS ⚠️")
          
-         local ExperimentalTab = Window:CreateTab("Experimental", nil)
-         
-         local ExpDiscLabel = ExperimentalTab:CreateLabel("Test put features before their official relase! Note that many of the things here might be broken or half done.", nil, Color3.fromRGB(nil, nil, nil), false) -- Title, Icon, Color, IgnoreTheme
-         
-         local ExpPermSection = ExperimentalTab:CreateSection("⚠️PERMANENTS ⚠️")
-         
-         local ExtenderButton = ExperimentalTab:CreateButton({
+         local ExtenderButton = ExpTab:CreateButton({
    Name = "Hitbox Extender [PERMANENT]",
    Callback = function()
    while task.wait() do
@@ -162,9 +161,5 @@ for i, k in next, workspace.ActiveBosses:GetDescendants() do
          end
          
          
-   end,
-})
-
-      end
    end,
 })
