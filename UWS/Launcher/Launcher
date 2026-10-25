@@ -1,36 +1,24 @@
 print("Loading menu")
 
 local HttpService = game:GetService("HttpService")
-local owner = "Kcyrodndh"
-local repo = "KcyrosStuff"
-local path = "UWS/Main"
-
-local url = string.format("https://github.com", owner, repo, path)
 
 local success, response = pcall(function()
-    return game:HttpGet(url)
+    return game:HttpGet("https://raw.githubusercontent.com/Kcyrodndh/KcyrosStuff/main/UWS/Launcher/versions.json")
 end)
 
-local fileNamesMain = {}
+local versionsData = { Main = {"Latest"}, Experimental = {"Latest"} }
 
 if success then
-    local decodeSuccess, data = pcall(function()
+    local decodeSuccess, decoded = pcall(function()
         return HttpService:JSONDecode(response)
     end)
-    
-    if decodeSuccess and type(data) == "table" then
-        for _, item in ipairs(data) do
-            if item.type == "file" then
-                table.insert(fileNamesMain, item.name)
-            end
-        end
+    if decodeSuccess and type(decoded) == "table" then
+        versionsData = decoded
     else
-        warn("GitHub API rate limited or invalid response. Using default fallback option.")
-        table.insert(fileNamesMain, "Latest")
+        warn("Failed to parse versions.json, using local backup list.")
     end
 else
-    warn("Failed to fetch GitHub contents: " .. tostring(response))
-    table.insert(fileNamesMain, "Latest")
+    warn("Could not connect to GitHub to fetch the file list.")
 end
 
 local Rayfield
@@ -47,7 +35,7 @@ else
     if fallbackLoaded then
         Rayfield = fallbackLoaded
     else
-        warn("Could not load Rayfield UI from any repository source.")
+        warn("Could not load Rayfield UI from any online source.")
         return
     end
 end
@@ -101,83 +89,27 @@ local TypeDropdown = Tab:CreateDropdown({
       if not VersionDropdown or not Label then return end
 
       if TypeSelected == "Main" then
-         local ownerMain = "Kcyrodndh"
-         local repoMain = "KcyrosStuff"
-         local pathMain = "UWS/Main"
-
-         local urlMain = string.format("https://github.com", ownerMain, repoMain, pathMain)
-
-         local successMain, responseMain = pcall(function()
-             return game:HttpGet(urlMain)
-         end)
-
-         if successMain then
-            local decodeSuccessMain, dataMain = pcall(function()
-                return HttpService:JSONDecode(responseMain)
-            end)
-            
-            table.clear(fileNamesMain)
-            if decodeSuccessMain and type(dataMain) == "table" then
-                for _, item in ipairs(dataMain) do
-                    if item.type == "file" then
-                        table.insert(fileNamesMain, item.name)
-                    end
-                end
-            else
-                table.insert(fileNamesMain, "Latest")
-            end
-         else
-             warn("Failed to fetch GitHub contents: " .. tostring(responseMain))
-             table.clear(fileNamesMain)
-             table.insert(fileNamesMain, "Latest")
-         end
-         
          Label:Set("The Main Version. More stable than Experimental, if you find any bug, try switching to Experimental.") 
-         VersionDropdown:Refresh(fileNamesMain, true)
+         
+         local listMain = versionsData.Main or {"Latest"}
+         VersionDropdown:Refresh(listMain, true)
          
       elseif TypeSelected == "Experimental" then
-         local ownerExp = "Kcyrodndh"
-         local repoExp = "KcyrosStuff"
-         local pathExp = "UWS/Main" 
-
-         local urlExp = string.format("https://github.com", ownerExp, repoExp, pathExp)
-
-         local successExp, responseExp = pcall(function()
-             return game:HttpGet(urlExp)
-         end)
-
-         local fileNamesExp = {}
-         if successExp then
-            local decodeSuccessExp, dataExp = pcall(function()
-                return HttpService:JSONDecode(responseExp)
-            end)
-            
-            if decodeSuccessExp and type(dataExp) == "table" then
-                for _, item in ipairs(dataExp) do
-                    if item.type == "file" then
-                        table.insert(fileNamesExp, item.name)
-                    end
-                end
-            else
-                table.insert(fileNamesExp, "Latest")
-            end
-         else
-             warn("Failed to fetch GitHub contents: " .. tostring(responseExp))
-             table.insert(fileNamesExp, "Latest")
-         end
-         
          Label:Set("The Experimental Version. Test out new versions and features earlier, but might have bugs in it.") 
-         VersionDropdown:Refresh(fileNamesExp, true)
+         
+         local listExp = versionsData.Experimental or {"Latest"}
+         VersionDropdown:Refresh(listExp, true)
       end
    end,
 })
 
 Label = Tab:CreateLabel("The Main Version. More stable than Experimental, if you find any bug, try switching to Experimental.", nil, Color3.fromRGB(255, 255, 255), false)
 
+local initialOptions = versionsData.Main or {"Latest"}
 VersionDropdown = Tab:CreateDropdown({
    Name = "Version",
-   Options = fileNamesMain,
-   CurrentOption = {"Latest"},
+   Options = initialOptions,
+   CurrentOption = {initialOptions[1] or "Latest"},
    MultipleOptions = false,
    Flag = "DropdownVersion",
    Callback = function(Options)
@@ -202,7 +134,7 @@ local ExecuteButton = Tab:CreateButton({
       end
 
       if typeSelected and fileSelected then
-         local baseUrl = "https://githubusercontent.com"
+         local baseUrl = "https://githubusercontent.com/Kcyrodndh/KcyrosStuff/main/UWS"
          local finalUrl = string.format("%s/%s/%s", baseUrl, typeSelected, fileSelected)
          
          print("Downloading and executing from: " .. finalUrl)
