@@ -1,0 +1,182 @@
+print("Loading menu")
+
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+local Window = Rayfield:CreateWindow({
+   Name = "Pick your version!",
+   Icon = 0,
+   LoadingTitle = "Main Menu",
+   LoadingSubtitle = "Choose your version.",
+   ShowText = "Rayfield",
+   Theme = "Amethyst",
+
+   ToggleUIKeybind = "K",
+
+   DisableRayfieldPrompts = true,
+   DisableBuildWarnings = true,
+
+   ConfigurationSaving = {
+      Enabled = true,
+      FolderName = "UWS", 
+      FileName = "Menu Preferences"
+   },
+
+   Discord = {
+      Enabled = false,
+      Invite = "noinvitelink",
+      RememberJoins = true
+   },
+
+   KeySystem = false,
+   KeySettings = {
+      Title = "Untitled",
+      Subtitle = "Key System",
+      Note = "No method of obtaining the key is provided",
+      FileName = "Key",
+      SaveKey = true,
+      GrabKeyFromSite = false,
+      Key = {"Hello"}
+   }
+})
+
+local Tab = Window:CreateTab("Menu", nil)
+
+
+
+local TypeDropdown = Tab:CreateDropdown({
+   Name = "Pick the type of version",
+   Options = {"Main", "Experimental"},
+   CurrentOption = {"Main"},
+   MultipleOptions = false,
+   Flag = "DropdownType",
+   Callback = function(Options)
+      local TypeSelected = Options[1]
+      
+      
+      if not VersionDropdown then return end
+
+      if TypeSelected == "Main" then
+         local HttpService = game:GetService("HttpService")
+         local owner = "Kcyrodndh"
+         local repo = "KcyrosStuff"
+         local path = "UWS/Main"
+
+         local url = string.format("https://api.github.com/repos/%s/%s/contents/%s", owner, repo, path)
+
+         local success, response = pcall(function()
+             return game:HttpGet(url)
+         end)
+
+         if not success then
+             warn("Failed to fetch GitHub contents: " .. tostring(response))
+             return
+         end
+
+         local data = HttpService:JSONDecode(response)
+         local fileNamesMain = {}
+
+         for _, item in ipairs(data) do
+             if item.type == "file" then
+                 table.insert(fileNamesMain, item.name)
+             end
+         end
+
+         VersionDropdown:Refresh(fileNamesMain, true)
+         
+      elseif TypeSelected == "Experimental" then
+         local HttpService = game:GetService("HttpService")
+         local owner = "Kcyrodndh"
+         local repo = "KcyrosStuff"
+         local path = "UWS/Main"
+
+         local url = string.format("https://api.github.com/repos/%s/%s/contents/%s", owner, repo, path)
+
+         local success, response = pcall(function()
+             return game:HttpGet(url)
+         end)
+
+         if not success then
+             warn("Failed to fetch GitHub contents: " .. tostring(response))
+             return
+         end
+
+         local data = HttpService:JSONDecode(response)
+         local fileNamesExp = {}
+
+         for _, item in ipairs(data) do
+             if item.type == "file" then
+                 table.insert(fileNamesExp, item.name)
+             end
+         end
+         
+         VersionDropdown:Refresh(fileNamesExp, true)
+      end
+   end,
+})
+
+
+VersionDropdown = Tab:CreateDropdown({
+   Name = "Version",
+   Options = {"Pick the type first!"},
+   CurrentOption = {"Pick the type first!"},
+   MultipleOptions = false,
+   Flag = "DropdownVersion",
+   Callback = function(Options)
+      
+      print("Selected version file:", Options[1])
+   end,
+})
+
+local ExecuteButton = Tab:CreateButton({
+   Name = "Load",
+   Callback = function()
+      
+      local typeSelected = TypeDropdown.CurrentOption[1]
+      local fileSelected = VersionDropdown.CurrentOption[1]
+
+      
+      if fileSelected == "Pick the type first!" or fileSelected == "" or not fileSelected then
+         Rayfield:Notify({
+            Title = "Invalid Version",
+            Content = "Please pick a valid version.",
+            Duration = 4,
+            Image = nil
+         })
+         return
+      end
+
+      if typeSelected and fileSelected then
+         
+         local baseUrl = "https://raw.githubusercontent.com/Kcyrodndh/KcyrosStuff/main/UWS"
+         local finalUrl = string.format("%s/%s/%s", baseUrl, typeSelected, fileSelected)
+         
+         print("Descargando y ejecutando desde: " .. finalUrl)
+
+         
+         local success, scriptContent = pcall(function()
+            return game:HttpGet(finalUrl)
+         end)
+
+         if success then
+            
+            local runSuccess, runError = pcall(function()
+               local func = loadstring(scriptContent)
+               if func then
+                  func()
+               else
+                  error("loadstring devolvió nil (revisa la sintaxis de tu script en GitHub)")
+               end
+            end)
+
+            if not runSuccess then
+               warn("Error al ejecutar el script de la versión: " .. tostring(runError))
+            end
+         else
+            warn("No se pudo descargar el archivo desde GitHub: " .. tostring(scriptContent))
+         end
+      end
+   end,
+})
+
+
+print("Loaded")
