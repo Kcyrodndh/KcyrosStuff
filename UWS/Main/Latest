@@ -134,7 +134,7 @@ local FireworkButton = EventTab:CreateButton({
 
 local MoreTab = Window:CreateTab("Tab Example", nil)
 local Button = MoreTab:CreateButton({
-   Name = "Button Example",
+   Name = "Go back to launcher.",
    Callback = function()
    loadstring(game:HttpGet("https://raw.githubusercontent.com/Kcyrodndh/KcyrosStuff/main/UWS/Launcher/Launcher"))()
    end,
@@ -142,4 +142,4 @@ local Button = MoreTab:CreateButton({
 
 -- empty space for changelogs
 
-local v1.0Paragraph = MoreTab:CreateParagraph({Title = "v1.0 [Current]", Content = "Script relase. Added "More" tab and button to go back to launcher."})
+local v1.0Paragraph = MoreTab:CreateParagraph({Title = "v1.0 [Current]", Content = "Script relase! Added "More" tab and button to go back to launcher."})
