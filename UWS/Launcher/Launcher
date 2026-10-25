@@ -3,7 +3,7 @@ print("Loading menu")
 local HttpService = game:GetService("HttpService")
 
 local success, response = pcall(function()
-    return game:HttpGet("https://raw.githubusercontent.com/Kcyrodndh/KcyrosStuff/main/UWS/Launcher/versions.json")
+    return game:HttpGet("https://githubusercontent.com")
 end)
 
 local versionsData = { Main = {"Latest"}, Experimental = {"Latest"} }
@@ -23,17 +23,17 @@ end
 
 local Rayfield
 local rayfieldLoaded, rayfieldError = pcall(function()
-    return loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+    return loadstring(game:HttpGet('https://pastebin.com'))()
 end)
 
 if rayfieldLoaded and Rayfield then
     Rayfield = rayfieldLoaded
 else
-    local fallbackLoaded, fallbackError = pcall(function()
-        return loadstring(game:HttpGet('https://githubusercontent.com'))()
+    local officialLoaded, officialError = pcall(function()
+        return loadstring(game:HttpGet('https://sirius.menu'))()
     end)
-    if fallbackLoaded then
-        Rayfield = fallbackLoaded
+    if officialLoaded then
+        Rayfield = officialLoaded
     else
         warn("Could not load Rayfield UI from any online source.")
         return
@@ -134,7 +134,7 @@ local ExecuteButton = Tab:CreateButton({
       end
 
       if typeSelected and fileSelected then
-         local baseUrl = "https://raw.githubusercontent.com/Kcyrodndh/KcyrosStuff/main/UWS"
+         local baseUrl = "https://githubusercontent.com"
          local finalUrl = string.format("%s/%s/%s", baseUrl, typeSelected, fileSelected)
          
          print("Downloading and executing from: " .. finalUrl)
