@@ -33,7 +33,24 @@ else
     table.insert(fileNamesMain, "Latest")
 end
 
-local Rayfield = loadstring(game:HttpGet('https://sirius.menu'))()
+local Rayfield
+local rayfieldLoaded, rayfieldError = pcall(function()
+    return loadstring(game:HttpGet('https://sirius.menu'))()
+end)
+
+if rayfieldLoaded and Rayfield then
+    Rayfield = rayfieldLoaded
+else
+    local fallbackLoaded, fallbackError = pcall(function()
+        return loadstring(game:HttpGet('https://githubusercontent.com'))()
+    end)
+    if fallbackLoaded then
+        Rayfield = fallbackLoaded
+    else
+        warn("Could not load Rayfield UI from any repository source.")
+        return
+    end
+end
 
 local Window = Rayfield:CreateWindow({
    Name = "Pick your version!",
