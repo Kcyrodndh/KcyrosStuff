@@ -21,24 +21,7 @@ else
     warn("Could not connect to GitHub to fetch the file list.")
 end
 
-local Rayfield
-local rayfieldLoaded, rayfieldError = pcall(function()
-    return loadstring(game:HttpGet('https://pastebin.com'))()
-end)
-
-if rayfieldLoaded and rayfieldError then
-    Rayfield = rayfieldError
-else
-    local officialLoaded, officialError = pcall(function()
-        return loadstring(game:HttpGet('https://sirius.menu'))()
-    end)
-    if officialLoaded and officialError then
-        Rayfield = officialError
-    else
-        warn("Could not load Rayfield UI from any online source.")
-        return
-    end
-end
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
    Name = "Pick your version!",
