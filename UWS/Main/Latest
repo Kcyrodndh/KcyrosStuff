@@ -8,6 +8,7 @@ local Window = Rayfield:CreateWindow({
    ConfigurationSaving = { Enabled = false },
    KeySystem = false,
    DisableRayfieldPrompts= true,
+Theme = "Amethyst"
 })
 
 local MainTab = Window:CreateTab("Main", nil)
@@ -142,4 +143,4 @@ local Button = MoreTab:CreateButton({
 
 -- empty space for changelogs
 
-local v1.0Paragraph = MoreTab:CreateParagraph({Title = "v1.0 [Current]", Content = "Script relase! Added "More" tab and button to go back to launcher."})
+local v1.0Paragraph = MoreTab:CreateParagraph({Title = "v1.0 [Current]", Content = "Script relase! Added "More" tab and button to go back to launcher. Changed UI to "Amethyst" theme."})
