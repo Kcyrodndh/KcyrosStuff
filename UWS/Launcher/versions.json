@@ -1,4 +1,4 @@
 {
-  "Main": ["Latest"],
-  "Experimental": ["Latest"]
+  "Main": ["Latest", "v1.0"],
+  "Experimental": ["Latest", "v1.1b"]
 }
