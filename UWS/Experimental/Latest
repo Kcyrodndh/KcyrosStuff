@@ -8,7 +8,7 @@ local Window = Rayfield:CreateWindow({
    ConfigurationSaving = { Enabled = false },
    KeySystem = false,
    DisableRayfieldPrompts = true,
-   Theme = "Amethyst"
+   Theme = "Amber Glow"
 })
 
 local MainTab = Window:CreateTab("Main", nil)
@@ -83,7 +83,35 @@ local IslandButton = SandyTab:CreateButton({
    end,
 })
 
-local EventTab = Window:CreateTab("Events", nil)
+local EventTab = Window:CreateTab("🎃Events🍬", nil)
+
+local HalloweenSection = EventTab:CreateSection("Halloween 🎃")
+
+local PumpCandyButton = EventTab:CreateButton({
+   Name = "Collect Pumpkin Candies 🍬",
+   Callback = function()
+      local lp = game.Players.LocalPlayer
+      for _, k in next, workspace.PumpCandy:GetChildren() do
+         if k.Name == 'PumpCandy' then
+            game:GetService('RunService').PostSimulation:Wait()
+            lp.Character.HumanoidRootPart.CFrame = k:GetPivot() * CFrame.new(0, 5, 0)
+            task.wait(.2)
+            fireproximityprompt(k.ProximityPrompt)
+            task.wait(.7)
+         end 
+      end 
+
+      task.wait(1)
+      if workspace.PumpCandy:FindFirstChild("PumpCandy") then
+         Rayfield:Notify({
+            Title = "Missed some Pumpkin Candies.",
+            Content = "Please re-execute",
+            Duration = 6.5,
+         })
+      end
+   end,
+})
+
 local Xmas25Section = EventTab:CreateSection("Christmas 2025")
 
 local FireworkButton = EventTab:CreateButton({
@@ -143,7 +171,9 @@ local ChangeSection = MoreTab:CreateSection("Changelog")
 
 -- latest goes here.
 
+local v1_1_1hbParagraph = MoreTab:CreateParagraph({Title = "v1.1.1Hb [Current]", Content = "Happy Halloween! Added the Auto-PumpCandy collector. Changed the UI to fit Halloween (Temporal)"})
+
 local v1_1bParagraph = MoreTab:CreateParagraph({
-   Title = "v1.1b [Current]", 
+   Title = "v1.1b", 
    Content = "Added 'Hitbox Extender'. Optimized Auto Island. Removed Open Sandeller Shop, might not be back (not useful)"
 })
