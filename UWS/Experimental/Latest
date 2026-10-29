@@ -8,7 +8,7 @@ local Window = Rayfield:CreateWindow({
    ConfigurationSaving = { Enabled = false },
    KeySystem = false,
    DisableRayfieldPrompts = true,
-   Theme = "Amber Glow"
+   Theme = "AmberGlow"
 })
 
 local MainTab = Window:CreateTab("Main", nil)
