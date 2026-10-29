@@ -135,7 +135,7 @@ local MoreTab = Window:CreateTab("More", nil)
 local BackToLauncherButton = MoreTab:CreateButton({
    Name = "Go back to launcher.",
    Callback = function()
-      loadstring(game:HttpGet("https://raw.githubusercontent.com/Kcyrodndh/KcyrosStuff/main/UWS/Launcher/Launcher"))()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/Kcyrodndh/KcyrosStuff/main/UWS/Launcher/Launcher", false))()
    end,
 })
 
