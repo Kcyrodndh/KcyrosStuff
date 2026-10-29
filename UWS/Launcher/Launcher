@@ -136,13 +136,7 @@ local ExecuteButton = Tab:CreateButton({
                end
             end)
 
-local ChangeTab = Window:CreateTab("Changelog", nil) -- Title, Image
 
-local v1_1Paragraph = ChangeTab:CreateParagraph({Title = "v1.1", Content = "Happy Halloween! Temporary change of the UI to fit Halloween (Global). Added Changelogs to Loader."})
-
-local v1_0Paragraph = ChangeTab:CreateParagraph({Title = "v1.0", Content = "Relased Script!"})
-
-print("Loaded")
 
             if not runSuccess then
                warn("Error executing version script: " .. tostring(runError))
@@ -153,6 +147,14 @@ print("Loaded")
       end
    end,
 })
+
+local ChangeTab = Window:CreateTab("Changelog", nil) -- Title, Image
+
+local v1_1Paragraph = ChangeTab:CreateParagraph({Title = "v1.1", Content = "Happy Halloween! Temporary change of the UI to fit Halloween (Global). Added Changelogs to Loader."})
+
+local v1_0Paragraph = ChangeTab:CreateParagraph({Title = "v1.0", Content = "Relased Script!"})
+
+print("Loaded")
 
 if Label and Label.Elements and Label.Elements.MainFrame then 
     Label.Elements.MainFrame.BackgroundTransparency = 1 
