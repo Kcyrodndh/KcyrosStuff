@@ -3,7 +3,7 @@ print("Loading menu")
 local HttpService = game:GetService("HttpService")
 
 local success, response = pcall(function()
-    return game:HttpGet("https://raw.githubusercontent.com/Kcyrodndh/KcyrosStuff/main/UWS/Launcher/versions.json")
+    return game:HttpGet("https://raw.githubusercontent.com/Kcyrodndh/KcyrosStuff/main/UWS/Launcher/versions.json", false)
 end)
 
 local versionsData = { Main = {"Latest"}, Experimental = {"Latest"} }
@@ -123,7 +123,7 @@ local ExecuteButton = Tab:CreateButton({
          print("Downloading and executing from: " .. finalUrl)
 
          local successLoad, scriptContent = pcall(function()
-            return game:HttpGet(finalUrl)
+            return game:HttpGet(finalUrl, false)
          end)
 
          if successLoad then
