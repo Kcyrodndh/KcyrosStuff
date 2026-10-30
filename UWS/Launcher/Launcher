@@ -103,10 +103,22 @@ VersionDropdown = Tab:CreateDropdown({
 local ExecuteButton = Tab:CreateButton({
    Name = "Load",
    Callback = function()
-      local typeSelected = type(TypeDropdown.CurrentOption) == "table" and TypeDropdown.CurrentOption or TypeDropdown.CurrentOption
-      local fileSelected = type(VersionDropdown.CurrentOption) == "table" and VersionDropdown.CurrentOption or VersionDropdown.CurrentOption
+      local typeSelected = ""
+      local fileSelected = ""
 
-      if fileSelected == "Pick the type first!" or fileSelected == "" or not fileSelected then
+      if type(TypeDropdown.CurrentOption) == "table" then
+         typeSelected = TypeDropdown.CurrentOption[1]
+      else
+         typeSelected = TypeDropdown.CurrentOption
+      end
+
+      if type(VersionDropdown.CurrentOption) == "table" then
+         fileSelected = VersionDropdown.CurrentOption[1]
+      else
+         fileSelected = VersionDropdown.CurrentOption
+      end
+
+      if not fileSelected or fileSelected == "Pick the type first!" or fileSelected == "" then
          Rayfield:Notify({
             Title = "Invalid Version",
             Content = "Please pick a valid version.",
@@ -118,7 +130,7 @@ local ExecuteButton = Tab:CreateButton({
 
       if typeSelected and fileSelected then
          local baseUrl = "https://raw.githubusercontent.com/Kcyrodndh/KcyrosStuff/main/UWS"
-         local finalUrl = string.format("%s/%s/%s", baseUrl, typeSelected, fileSelected)
+         local finalUrl = string.format("%s/%s/%s", baseUrl, tostring(typeSelected), tostring(fileSelected))
          
          print("Downloading and executing from: " .. finalUrl)
 
