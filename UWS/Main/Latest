@@ -105,7 +105,38 @@ local IslandButton = SandyTab:CreateButton({
    end,
 })
 
-local EventTab = Window:CreateTab("Events", nil)
+local EventTab = Window:CreateTab("🍬Events🎃", nil)
+
+local HalloweenSection = EventTab:CreateSection("Halloween 🎃")
+
+local PumpCandyButton = EventTab:CreateButton({
+   Name = "Collect Pumpkin Candies 🍬",
+   Callback = function()
+      local lp = game.Players.LocalPlayer
+local pcord = lp.Character.HumanoidRootPart.CFrame
+      for _, k in next, workspace.PumpCandy:GetChildren() do
+         if k.Name == 'PumpCandy' then
+            game:GetService('RunService').PostSimulation:Wait()
+            lp.Character.HumanoidRootPart.CFrame = k:GetPivot() * CFrame.new(0, 5, 0)
+            task.wait(.2)
+            fireproximityprompt(k.ProximityPrompt)
+            task.wait(.7)
+         end 
+      end 
+
+lp.Character.HumanoidRootPart.CFrame = pcord
+
+      task.wait(1)
+      if workspace.PumpCandy:FindFirstChild("PumpCandy") then
+         Rayfield:Notify({
+            Title = "Missed some Pumpkin Candies.",
+            Content = "Please re-execute",
+            Duration = 6.5,
+         })
+      end
+   end,
+})
+
 local Xmas25Section = EventTab:CreateSection("Christmas 2025")
 
 local FireworkButton = EventTab:CreateButton({
@@ -142,6 +173,8 @@ local BackToLauncherButton = MoreTab:CreateButton({
 })
 
 local ChangeSection = MoreTab:CreateSection("Changelog")
+
+local 1_0_1HParagraph = MoreTab:CreateParagraph({Title = "v1.0.1H", Content = "Happy Halloween! Changed UI to match Halloween. Added the Auto-PumpCandy collector. "})
 
 local v1_0Paragraph = MoreTab:CreateParagraph({
    Title = "v1.0 [Current]", 
