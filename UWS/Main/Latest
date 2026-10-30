@@ -174,7 +174,7 @@ local BackToLauncherButton = MoreTab:CreateButton({
 
 local ChangeSection = MoreTab:CreateSection("Changelog")
 
-local 1_0_1HParagraph = MoreTab:CreateParagraph({Title = "v1.0.1H [Current]", Content = "Happy Halloween! Changed UI to match Halloween. Added the Auto-PumpCandy collector. "})
+local v1_0_1HParagraph = MoreTab:CreateParagraph({Title = "v1.0.1H [Current]", Content = "Happy Halloween! Changed UI to match Halloween. Added the Auto-PumpCandy collector. "})
 
 local v1_0Paragraph = MoreTab:CreateParagraph({
    Title = "v1.0", 
