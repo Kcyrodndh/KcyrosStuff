@@ -8,7 +8,7 @@ local Window = Rayfield:CreateWindow({
    ConfigurationSaving = { Enabled = false },
    KeySystem = false,
    DisableRayfieldPrompts = true,
-   Theme = "Amethyst"
+   Theme = "AmberGlow"
 })
 
 local MainTab = Window:CreateTab("Main", nil)
@@ -174,9 +174,9 @@ local BackToLauncherButton = MoreTab:CreateButton({
 
 local ChangeSection = MoreTab:CreateSection("Changelog")
 
-local 1_0_1HParagraph = MoreTab:CreateParagraph({Title = "v1.0.1H", Content = "Happy Halloween! Changed UI to match Halloween. Added the Auto-PumpCandy collector. "})
+local 1_0_1HParagraph = MoreTab:CreateParagraph({Title = "v1.0.1H [Current]", Content = "Happy Halloween! Changed UI to match Halloween. Added the Auto-PumpCandy collector. "})
 
 local v1_0Paragraph = MoreTab:CreateParagraph({
-   Title = "v1.0 [Current]", 
+   Title = "v1.0", 
    Content = "Script release! Added 'More' tab and button to go back to launcher. Changed UI to 'Amethyst' theme."
 })
