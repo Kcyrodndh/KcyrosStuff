@@ -91,6 +91,7 @@ local PumpCandyButton = EventTab:CreateButton({
    Name = "Collect Pumpkin Candies 🍬",
    Callback = function()
       local lp = game.Players.LocalPlayer
+local pcord = lp.Character.HumanoidRootPart.CFrame
       for _, k in next, workspace.PumpCandy:GetChildren() do
          if k.Name == 'PumpCandy' then
             game:GetService('RunService').PostSimulation:Wait()
@@ -100,6 +101,8 @@ local PumpCandyButton = EventTab:CreateButton({
             task.wait(.7)
          end 
       end 
+
+lp.Character.HumanoidRootPart.CFrame = pcord
 
       task.wait(1)
       if workspace.PumpCandy:FindFirstChild("PumpCandy") then
@@ -118,6 +121,7 @@ local FireworkButton = EventTab:CreateButton({
    Name = "Collect Fireworks",
    Callback = function()
       local lp = game.Players.LocalPlayer
+local pcord = lp.Character.HumanoidRootPart.CFrame 
       for _, k in next, workspace.FireworksC:GetChildren() do
          if k.Name == 'FireworksM' and k:IsA'Model' then
             game:GetService('RunService').PostSimulation:Wait()
@@ -127,6 +131,8 @@ local FireworkButton = EventTab:CreateButton({
             task.wait(.7)
          end 
       end 
+
+lp.Character.HumanoidRootPart.CFrame = pcord
 
       task.wait(1)
       if workspace.FireworksC:FindFirstChild("FireworksM") then
